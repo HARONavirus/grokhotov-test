@@ -6,8 +6,8 @@
         <div class="price-block">
 
         </div>
-        <div class="products">
-            
+        <div class="products-block">
+
         </div>
     </div>
 </template>
