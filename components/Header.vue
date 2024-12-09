@@ -1,3 +1,16 @@
+<script setup>
+const props = defineProps({
+  cartSummary: {
+    type: Object,
+    required: true,
+  },
+  declension: {
+    type: Function,
+    required: true,
+  }
+});
+</script>
+
 <template>
     <header>
         <div class="header-cart__block">
@@ -11,10 +24,10 @@
                     <span>Ваша корзина</span>
                 </div>
                 <div class="header-cart__count">
-                    <span>3 товара</span>
+                    <span> {{ cartSummary.totalCount }} {{ declension(cartSummary.totalCount) }} </span>
                 </div>
                 <div class="header-cart__price">
-                    <span>50 576 ₽</span>
+                    <span> {{ cartSummary.totalPrice }} ₽</span>
                 </div>
             </div>
         </div>
