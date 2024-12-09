@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from "axios";
 import { useCartSummary } from '~/composables/cartCalculations';
 import { declension } from '~/composables/declensions';
@@ -25,7 +25,14 @@ const updateCartSummary = () => {
 
 <template>
   <div>
-    <Header :cartSummary="cartSummaryData" :declension="declension" />
-    <NuxtPage :cartSummary="cartSummaryData" :declension="declension" />
+    <Header 
+      :cartSummary="cartSummaryData" 
+      :declension="declension" 
+    />
+    <NuxtPage 
+      :cartSummary="cartSummaryData" 
+      :declension="declension" 
+      :cartItems="cartItems"
+    />
   </div>
 </template>

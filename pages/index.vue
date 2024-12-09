@@ -18,11 +18,12 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
   
   .cart-button {
     display: flex;
+    margin-top: 10%;
   }
   
   .cart-button__button {
@@ -47,4 +48,34 @@
     box-shadow: none;
     transform: translate(10px, 10px);
   }
+
+  @media (max-width: 1024px) {
+    .cart-button__button {
+        padding: 0.8rem 1.5rem;
+        font-size: 3.5rem;
+    }
+    .cart-button__text {
+      font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-button__button {
+        padding: 0.6rem 1rem;
+        font-size: 2.5rem;
+    }
+    .cart-button__text {
+      font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-button__button {
+        padding: 0.4rem 0.7rem;
+        font-size: 1.8rem;
+    }
+    .cart-button__text {
+        font-size: 1.8rem;
+    }
+}
   </style>
