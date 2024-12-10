@@ -1,4 +1,6 @@
 <script setup>
+import CardList from '~/components/CardList.vue';
+
 const props = defineProps({
   cartSummary: {
     type: Object,
@@ -14,7 +16,8 @@ const props = defineProps({
   }
 });
 
-const attachmentPrice = ref(0)
+const isAttachmentSelected = ref(false);
+const attachmentPrice = computed(() => isAttachmentSelected.value ? 1000 : 0);
 
 const totalPrice = computed(() => {
   return props.cartSummary.totalPrice + attachmentPrice.value;
@@ -38,6 +41,23 @@ const totalPrice = computed(() => {
                     </div>
                     <div class="cartItems-block__title__clear__button">
                         <span class="cartItems-block__title__clear__text">Очистить корзину</span>
+                    </div>
+                </div>
+                <CardList :cartItems="cartItems" />
+                <div class="cartItems-block__attachment__block">
+                    <label class="cartItems-block__attachment__block__checkbox">
+                        <input type="checkbox" v-model="isAttachmentSelected">
+                    </label>
+                    <img class="cartItems-block__attachment__block__icon" src="../assets/svg/attachment.svg" alt="Иконка установки">
+                    <div class="cartItems-block__attachment__block__info">
+                        <div class="cartItems-block__attachment__block__info__title">
+                            <span class="cartItems-block__attachment__block__info__title__text">Установка</span>
+                        </div>
+                        <div class="cartItems-block__attachment__block__info__description">
+                            <span class="cartItems-block__attachment__block__info__description__text">
+                                Отметьте, если Вам необходима консультация профессионала по монтажу выбранных товаров.
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,6 +178,46 @@ const totalPrice = computed(() => {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.cartItems-block__attachment__block {
+    display: flex;
+    align-items: center;
+    width: 800px;
+    height: 102px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.cartItems-block__attachment__block__checkbox {
+    margin-right: 20px;
+}
+
+.cartItems-block__attachment__block__checkbox input {
+    width: 20px;
+    height: 20px;
+}
+
+.cartItems-block__attachment__block__icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px
+}
+
+.cartItems-block__attachment__block__info__title__text {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 16px;
+    color: #1F2432;
+}
+
+.cartItems-block__attachment__block__info__description__text {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: #797B86;
 }
 
 .price-block {
