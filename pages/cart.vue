@@ -14,6 +14,7 @@ const cartStore = useCartStore();
 
 const clearCart = () => {
   cartStore.clearCart();
+  isAttachmentSelected.value = false;
 };
 
 const promotionalStore = usePromotionalStore();
@@ -61,7 +62,7 @@ const submitOrder = async () => {
 
     if (response.status === 200 || response.status === 201) {
       cartStore.clearCart();
-      attachmentPrice.value = 0;
+      isAttachmentSelected.value = false;
       alert('Заказ успешно оформлен!');
     } else {
       const errorData = response.data;
