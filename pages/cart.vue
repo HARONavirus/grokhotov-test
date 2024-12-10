@@ -1,5 +1,11 @@
 <script setup>
 import CardList from '~/components/CardList.vue';
+import { usePromotionalStore } from '~/stores/promotionalStore';
+
+import { onMounted, ref, nextTick } from 'vue';
+import { Swiper } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const props = defineProps({
   cartSummary: {
@@ -14,6 +20,34 @@ const props = defineProps({
     type: Array,
     required: true,
   }
+});
+
+const promotionalStore = usePromotionalStore();
+
+const prevButtonRef = ref(null);
+const nextButtonRef = ref(null);
+const swiperRef = ref(null);
+let swiperInstance = ref(null);
+
+onMounted(async () => {
+  await nextTick();
+
+  swiperInstance.value = new Swiper(swiperRef.value, {
+    slidesPerView: 4,
+    loop: true,
+    loopedSlides: promotionalStore.promProducts.length,
+    navigation: {
+      nextEl: nextButtonRef.value,
+      prevEl: prevButtonRef.value,
+    },
+  });
+
+  nextButtonRef.value.addEventListener('click', () => {
+    swiperInstance.value.slideNext();
+  });
+  prevButtonRef.value.addEventListener('click', () => {
+    swiperInstance.value.slidePrev();
+  });
 });
 
 const isAttachmentSelected = ref(false);
@@ -91,7 +125,40 @@ const totalPrice = computed(() => {
             </div>
         </div>
         <div class="products-block">
-
+            <div class="products-block__header">
+                <div class="products-block__header__title">
+                    <span class="products-block__title__text">Просмотренные товары</span>
+                </div>
+                <div class="products-block__header__buttons">
+                    <button ref="prevButtonRef" class="products-block__header__buttons__prevButton">
+                        <img src="../assets/svg/prev.svg" alt="">
+                    </button>
+                    <span class="products-block__header__buttons__count">6 / 10</span>
+                    <button ref="nextButtonRef" class="products-block__header__buttons__nextButton">
+                        <img src="../assets/svg/next.svg" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="swiper-container">
+                <div ref="swiperRef" class="swiper">
+                    <div class="swiper-wrapper">
+                        <div v-for="product in promotionalStore.promProducts" :key="product.id" class="swiper-slide">
+                        <div class="product-card">
+                            <div class="product-card__top">
+                                <img class="product-card__image" :src="product.picture" :alt="product.title" />
+                                <h3 class="product-card__title">{{ product.title }}</h3>
+                                <p class="product-card__description">{{ product.description }}</p>
+                            </div>
+                            <div class="product-card__bottom">
+                                <p class="product-card__price_rub">{{ product.low_price_rub }} ₽ - {{ product.top_price_rub }} ₽</p>
+                                <p class="product-card__price_eur">{{ product.low_price_eur }} € - {{ product.top_price_eur }} €</p>
+                                <button class="product-card__button">Подробнее</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -178,6 +245,7 @@ const totalPrice = computed(() => {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-bottom: 95px;
 }
 
 .cartItems-block__attachment__block {
@@ -336,6 +404,147 @@ const totalPrice = computed(() => {
     font-style: normal;
     font-size: 18px;
     color: #0069B4;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+	}
+
+    &:active {
+        transform: scale(0.9);
+    }
+}
+
+.products-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.products-block__header {
+    display: flex;
+    width: 1280px;
+    justify-content: space-between;
+    margin-bottom: 60px;
+}
+
+.products-block__title__text {
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 30px;
+    color: #1F2432;
+}
+
+.products-block__header__buttons {
+    display: flex;
+    align-items: center;
+}
+
+.products-block__header__buttons__prevButton,
+.products-block__header__buttons__nextButton {
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+	}
+
+    &:active {
+        transform: scale(0.9);
+    }
+}
+
+.products-block__header__buttons__count {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    color: #1F2432;
+    margin: 0 20px;
+}
+
+.swiper-container {
+  width: 1280px;
+  height: 563px;
+  overflow: hidden;
+  margin-bottom: 100px;
+}
+
+.swiper-slide {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 563px;
+    width: 305px;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.product-card:last-child {
+  margin-right: 0;
+}
+
+.product-card__image {
+    height: 245px;
+    width: 245px;
+    margin-bottom: 10px
+}
+
+.product-card__title {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 22px;
+    color: #1F2432;
+    margin-bottom: 10px;
+}
+
+.product-card__description {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: #1F2432;
+}
+
+.product-card__price_rub {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 22px;
+    color: #1F2432;
+    margin-bottom: 3px;
+}
+
+.product-card__price_eur {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #797B86;
+    margin-bottom: 20px;
+}
+.product-card__button {
+    width: 100%;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    background-color: #0069B4;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: white;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
