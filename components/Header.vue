@@ -1,37 +1,36 @@
 <script setup>
+import { declension } from '../composables/declensions';
+
 const props = defineProps({
-  cartSummary: {
+  cartStore: {
     type: Object,
     required: true,
   },
-  declension: {
-    type: Function,
-    required: true,
-  }
 });
+
 </script>
 
 <template>
-    <header>
-        <div class="header-cart__block">
-            <NuxtLink to="/cart">
-                <svg class="header-cart__icon">
-                    <use xlink:href="../assets/svg/sprite.svg#cart"></use>
-                </svg>
-            </NuxtLink>
-            <div class="header-cart__info">
-                <div class="header-cart__title">
-                    <span>Ваша корзина</span>
-                </div>
-                <div class="header-cart__count">
-                    <span> {{ cartSummary.totalCount }} {{ declension(cartSummary.totalCount) }} </span>
-                </div>
-                <div class="header-cart__price">
-                    <span> {{ cartSummary.totalPrice }} ₽</span>
-                </div>
-            </div>
+  <header>
+    <div class="header-cart__block">
+      <NuxtLink to="/cart">
+        <svg class="header-cart__icon">
+          <use xlink:href="../assets/svg/sprite.svg#cart"></use>
+        </svg>
+      </NuxtLink>
+      <div class="header-cart__info">
+        <div class="header-cart__title">
+          <span>Ваша корзина</span>
         </div>
-    </header>
+        <div class="header-cart__count">
+          <span> {{ props.cartStore.cartSummary.totalCount }} {{ declension(props.cartStore.cartSummary.totalCount) }} </span>
+        </div>
+        <div class="header-cart__price">
+          <span> {{ props.cartStore.cartSummary.totalPrice }} ₽</span>
+        </div>
+      </div>
+    </div>
+  </header>
 </template>
 
 <style scoped>

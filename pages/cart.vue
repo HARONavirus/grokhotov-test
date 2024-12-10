@@ -1,26 +1,17 @@
 <script setup>
 import CardList from '~/components/CardList.vue';
+import { useCartStore } from '~/stores/cartStore'; // Импорт cartStore
 import { usePromotionalStore } from '~/stores/promotionalStore';
-
 import { onMounted, ref, nextTick } from 'vue';
 import { Swiper } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const props = defineProps({
-  cartSummary: {
-    type: Object,
-    required: true,
-  },
-  declension: {
-    type: Function,
-    required: true,
-  },
-  cartItems : {
-    type: Array,
-    required: true,
-  }
-});
+const cartStore = useCartStore();
+
+const clearCart = () => {
+  cartStore.clearCart();
+};
 
 const promotionalStore = usePromotionalStore();
 
@@ -54,7 +45,7 @@ const isAttachmentSelected = ref(false);
 const attachmentPrice = computed(() => isAttachmentSelected.value ? 1000 : 0);
 
 const totalPrice = computed(() => {
-  return props.cartSummary.totalPrice + attachmentPrice.value;
+  return cartStore.cartSummary.totalPrice + attachmentPrice.value;
 });
 
 </script>
@@ -71,13 +62,13 @@ const totalPrice = computed(() => {
                 <div class="cartItems-block__header">
                     <div class="cartItems-block__title">
                         <span class="cartItems-block__title__text">Ваша корзина</span>
-                        <span class="cartItems-block__title__count"> {{ cartSummary.totalCount }} {{ declension(cartSummary.totalCount) }} </span>
+                        <span class="cartItems-block__title__count"> {{ cartStore.cartSummary.totalCount }} {{ declension(cartStore.cartSummary.totalCount) }} </span>
                     </div>
-                    <div class="cartItems-block__title__clear__button">
+                    <div class="cartItems-block__title__clear__button" @click="clearCart">
                         <span class="cartItems-block__title__clear__text">Очистить корзину</span>
                     </div>
                 </div>
-                <CardList :cartItems="cartItems" />
+                <CardList />
                 <div class="cartItems-block__attachment__block">
                     <label class="cartItems-block__attachment__block__checkbox">
                         <input type="checkbox" v-model="isAttachmentSelected">
@@ -101,11 +92,11 @@ const totalPrice = computed(() => {
                 </div>
                 <div class="price-block__price">
                     <span class="price-block__price__description">Сумма заказа</span>
-                    <span class="price-block__price__amount"> {{ cartSummary.totalPrice }} ₽</span>
+                    <span class="price-block__price__amount"> {{ cartStore.cartSummary.totalPrice }} ₽</span>
                 </div>
                 <div class="price-block__count">
                     <span class="price-block__count__description">Количество</span>
-                    <span class="price-block__count__amount"> {{ cartSummary.totalCount }} шт</span>
+                    <span class="price-block__count__amount"> {{ cartStore.cartSummary.totalCount }} шт</span>
                 </div>
                 <div class="price-block__attachment">
                     <span class="price-block__attachment__description">Установка</span>
@@ -113,7 +104,7 @@ const totalPrice = computed(() => {
                 </div>
                 <hr>
                 <div class="price-block__totalPrice">
-                    <span class="price-block__totalPrice__description">Стоимость {{ cartSummary.totalCount === 1 ? 'товара' : 'товаров' }}</span>
+                    <span class="price-block__totalPrice__description">Стоимость {{ cartStore.cartSummary.totalCount === 1 ? 'товара' : 'товаров' }}</span>
                     <span class="price-block__totalPrice__amount"> {{ totalPrice }} ₽</span>
                 </div>
                 <div class="price-block__createOrder">
@@ -133,7 +124,6 @@ const totalPrice = computed(() => {
                     <button ref="prevButtonRef" class="products-block__header__buttons__prevButton">
                         <img src="../assets/svg/prev.svg" alt="">
                     </button>
-                    <span class="products-block__header__buttons__count">6 / 10</span>
                     <button ref="nextButtonRef" class="products-block__header__buttons__nextButton">
                         <img src="../assets/svg/next.svg" alt="">
                     </button>
@@ -231,6 +221,16 @@ const totalPrice = computed(() => {
 
 .cartItems-block__title__clear__button {
     margin-bottom: 5px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+	}
+
+    &:active {
+        transform: scale(0.9);
+    }
 }
 
 .cartItems-block__title__clear__text {
@@ -441,10 +441,14 @@ const totalPrice = computed(() => {
 .products-block__header__buttons {
     display: flex;
     align-items: center;
+    width: 120px;
+    justify-content: space-between;
 }
 
 .products-block__header__buttons__prevButton,
 .products-block__header__buttons__nextButton {
+    width: 50px;
+    height: 50px;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
@@ -455,15 +459,6 @@ const totalPrice = computed(() => {
     &:active {
         transform: scale(0.9);
     }
-}
-
-.products-block__header__buttons__count {
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 18px;
-    color: #1F2432;
-    margin: 0 20px;
 }
 
 .swiper-container {

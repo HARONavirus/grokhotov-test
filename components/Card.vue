@@ -1,5 +1,9 @@
 <script setup>
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -25,6 +29,20 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['updateCount', 'removeItem']);
+
+const increaseCount = () => {
+  emit('updateCount', props.id, props.count + 1);
+};
+
+const decreaseCount = () => {
+  emit('updateCount', props.id, props.count - 1);
+};
+
+const removeItem = () => {
+  emit('removeItem', props.id);
+};
 </script>
 
 <template>
@@ -43,11 +61,15 @@ const props = defineProps({
         </div>
         <div class="productCard-block__data">
             <div class="productCard-block__count">
-                <img class="productCard-block__count__minus_button" src="../assets/svg/minus.svg" alt="Уменьшить количество на 1">
+                <div class="productCard-block__count__minus_button" @click="decreaseCount">
+                    <img src="../assets/svg/minus.svg" alt="Уменьшить количество на 1">
+                </div>
                 <div class="productCard-block__count__number">
                     <span class="productCard-block__count__number__text"> {{ props.count }} </span>
                 </div>
-                <img class="productCard-block__count__plus_button" src="../assets/svg/plus.svg" alt="Увеличить количество на 1">
+                <div class="productCard-block__count__plus_button" @click="increaseCount">
+                    <img src="../assets/svg/plus.svg" alt="Увеличить количество на 1">
+                </div>
             </div>
             <div v-if="props.count > 1" class="productCard-block__count__pricePerPiece">
                 <span class="productCard-block__count__pricePerPiece__text"> {{ props.price }} ₽/шт.</span>
@@ -57,7 +79,7 @@ const props = defineProps({
             <span class="productCard-block__price__text"> {{ props.price * props.count }} ₽</span>
         </div>
         <div class="productCard-block__delete">
-            <img class="productCard-block__delete__button" src="../assets/svg/close.svg" alt="">
+            <img class="productCard-block__delete__button" src="../assets/svg/close.svg" alt="" @click="removeItem">
         </div>
     </div>
 </template>
@@ -131,10 +153,12 @@ const props = defineProps({
     width: 102px;
     justify-content: space-around;
 }
-
 .productCard-block__count__minus_button {
-    width: 8px;
-    height: 2px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
@@ -145,6 +169,11 @@ const props = defineProps({
     &:active {
         transform: scale(0.9);
     }
+}
+
+.productCard-block__count__minus_button img {
+    width: 8px;
+    height: 2px;
 }
 
 .productCard-block__count__number__text {
@@ -156,8 +185,11 @@ const props = defineProps({
 }
 
 .productCard-block__count__plus_button {
-    width: 8px;
-    height: 8px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
@@ -168,6 +200,11 @@ const props = defineProps({
     &:active {
         transform: scale(0.9);
     }
+}
+
+.productCard-block__count__plus_button img {
+    width: 8px;
+    height: 8px;
 }
 
 .productCard-block__count__pricePerPiece__text {

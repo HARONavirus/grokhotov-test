@@ -1,38 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from "axios";
-import { useCartSummary } from '~/composables/cartCalculations';
-import { declension } from '~/composables/declensions';
+import { useCartStore } from '~/stores/cartStore';
+import { onMounted } from 'vue';
 
-const cartItems = ref([]);
-const cartSummaryData = ref({});
+const cartStore = useCartStore();
 
 onMounted(async () => {
-  try {
-    const { data } = await axios.get('https://761c34c1accc2eb6.mokky.dev/cart');
-    cartItems.value = data;
-    updateCartSummary();
-  } catch (error) {
-    console.error("Ошибка при загрузке данных:", error);
-  }
+  await cartStore.fetchCartItems();
 });
-
-const updateCartSummary = () => {
-    cartSummaryData.value = useCartSummary(cartItems.value);
-};
 
 </script>
 
 <template>
   <div>
-    <Header 
-      :cartSummary="cartSummaryData" 
-      :declension="declension" 
-    />
-    <NuxtPage 
-      :cartSummary="cartSummaryData" 
-      :declension="declension" 
-      :cartItems="cartItems"
-    />
+    <Header :cartStore="cartStore" />
+    <NuxtPage />
   </div>
 </template>
