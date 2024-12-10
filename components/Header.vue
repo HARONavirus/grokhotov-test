@@ -1,5 +1,6 @@
 <script setup>
 import { declension } from '../composables/declensions';
+import { formatNumberWithSpaces } from '../composables/numberFormatter';
 
 const props = defineProps({
   cartStore: {
@@ -26,7 +27,7 @@ const props = defineProps({
           <span> {{ props.cartStore.cartSummary.totalCount }} {{ declension(props.cartStore.cartSummary.totalCount) }} </span>
         </div>
         <div class="header-cart__price">
-          <span> {{ props.cartStore.cartSummary.totalPrice }} ₽</span>
+          <span> {{ formatNumberWithSpaces(props.cartStore.cartSummary.totalPrice) }} ₽</span>
         </div>
       </div>
     </div>

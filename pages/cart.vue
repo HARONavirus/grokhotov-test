@@ -1,11 +1,13 @@
 <script setup>
-import CardList from '~/components/CardList.vue';
-import { useCartStore } from '~/stores/cartStore'; // Импорт cartStore
-import { usePromotionalStore } from '~/stores/promotionalStore';
 import { onMounted, ref, nextTick } from 'vue';
 import { Swiper } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+import CardList from '~/components/CardList.vue';
+import { useCartStore } from '~/stores/cartStore';
+import { usePromotionalStore } from '~/stores/promotionalStore';
+import { formatNumberWithSpaces } from '~/composables/numberFormatter';
 
 const cartStore = useCartStore();
 
@@ -92,7 +94,7 @@ const totalPrice = computed(() => {
                 </div>
                 <div class="price-block__price">
                     <span class="price-block__price__description">Сумма заказа</span>
-                    <span class="price-block__price__amount"> {{ cartStore.cartSummary.totalPrice }} ₽</span>
+                    <span class="price-block__price__amount"> {{ formatNumberWithSpaces(cartStore.cartSummary.totalPrice) }} ₽</span>
                 </div>
                 <div class="price-block__count">
                     <span class="price-block__count__description">Количество</span>
@@ -100,12 +102,12 @@ const totalPrice = computed(() => {
                 </div>
                 <div class="price-block__attachment">
                     <span class="price-block__attachment__description">Установка</span>
-                    <span class="price-block__attachment__amount">{{ attachmentPrice === 0 ? 'Нет' : attachmentPrice + " ₽" }}</span>
+                    <span class="price-block__attachment__amount">{{ attachmentPrice === 0 ? 'Нет' : formatNumberWithSpaces(attachmentPrice) + " ₽" }}</span>
                 </div>
                 <hr>
                 <div class="price-block__totalPrice">
                     <span class="price-block__totalPrice__description">Стоимость {{ cartStore.cartSummary.totalCount === 1 ? 'товара' : 'товаров' }}</span>
-                    <span class="price-block__totalPrice__amount"> {{ totalPrice }} ₽</span>
+                    <span class="price-block__totalPrice__amount"> {{ formatNumberWithSpaces(totalPrice) }} ₽</span>
                 </div>
                 <div class="price-block__createOrder">
                     <button class="price-block__createOrder__button">Оформить заказ</button>
@@ -140,8 +142,8 @@ const totalPrice = computed(() => {
                                 <p class="product-card__description">{{ product.description }}</p>
                             </div>
                             <div class="product-card__bottom">
-                                <p class="product-card__price_rub">{{ product.low_price_rub }} ₽ - {{ product.top_price_rub }} ₽</p>
-                                <p class="product-card__price_eur">{{ product.low_price_eur }} € - {{ product.top_price_eur }} €</p>
+                                <p class="product-card__price_rub">{{ formatNumberWithSpaces(product.low_price_rub) }} ₽ - {{ formatNumberWithSpaces(product.top_price_rub) }} ₽</p>
+                                <p class="product-card__price_eur">{{ formatNumberWithSpaces(product.low_price_eur) }} € - {{ formatNumberWithSpaces(product.top_price_eur) }} €</p>
                                 <button class="product-card__button">Подробнее</button>
                             </div>
                         </div>

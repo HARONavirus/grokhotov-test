@@ -1,4 +1,6 @@
 <script setup>
+import { formatNumberWithSpaces } from '~/composables/numberFormatter';
+
 const props = defineProps({
   id: {
     type: Number,
@@ -72,11 +74,11 @@ const removeItem = () => {
                 </div>
             </div>
             <div v-if="props.count > 1" class="productCard-block__count__pricePerPiece">
-                <span class="productCard-block__count__pricePerPiece__text"> {{ props.price }} ₽/шт.</span>
+                <span class="productCard-block__count__pricePerPiece__text"> {{ formatNumberWithSpaces(props.price) }} ₽/шт.</span>
             </div>
         </div>
         <div class="productCard-block__price">
-            <span class="productCard-block__price__text"> {{ props.price * props.count }} ₽</span>
+            <span class="productCard-block__price__text"> {{ formatNumberWithSpaces(props.price * props.count) }} ₽</span>
         </div>
         <div class="productCard-block__delete">
             <img class="productCard-block__delete__button" src="../assets/svg/close.svg" alt="" @click="removeItem">
@@ -217,7 +219,7 @@ const removeItem = () => {
 
 .productCard-block__price {
     margin-top: 34px;
-    margin-right: 65px;
+    margin-right: 60px;
 }
 
 .productCard-block__price__text {
