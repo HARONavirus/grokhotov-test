@@ -3,6 +3,7 @@ import { onMounted, ref, nextTick } from 'vue';
 import { Swiper } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import axios from 'axios';
 
 import CardList from '~/components/CardList.vue';
 import { useCartStore } from '~/stores/cartStore';
@@ -49,6 +50,44 @@ const attachmentPrice = computed(() => isAttachmentSelected.value ? 1000 : 0);
 const totalPrice = computed(() => {
   return cartStore.cartSummary.totalPrice + attachmentPrice.value;
 });
+
+const submitOrder = async () => {
+  try {
+    const response = await axios.post('https://761c34c1accc2eb6.mokky.dev/orders', prepareOrderData(), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200 || response.status === 201) {
+      cartStore.clearCart();
+      attachmentPrice.value = 0;
+      alert('Заказ успешно оформлен!');
+    } else {
+      const errorData = response.data;
+      const errorMessage = errorData.error || errorData.message || `Ошибка с кодом ${response.status}`;
+      alert('Ошибка при оформлении заказа: ' + errorMessage);
+      console.error('Ошибка при оформлении заказа:', errorData);
+    }
+  } catch (error) {
+    console.error('Ошибка при оформлении заказа:', error);
+    alert('Ошибка при оформлении заказа: ' + error.message);
+  }
+};
+
+const prepareOrderData = () => {
+  return {
+    items: cartStore.items.map(item => ({
+      id: item.id,
+      title: item.title,
+      count: item.count,
+      price: item.price,
+    })),
+    installation: isAttachmentSelected.value ? true : false,
+    totalCount: cartStore.cartSummary.totalCount,
+    totalPrice: totalPrice.value,
+  };
+};
 
 </script>
 
@@ -110,7 +149,7 @@ const totalPrice = computed(() => {
                     <span class="price-block__totalPrice__amount"> {{ formatNumberWithSpaces(totalPrice) }} ₽</span>
                 </div>
                 <div class="price-block__createOrder">
-                    <button class="price-block__createOrder__button">Оформить заказ</button>
+                    <button class="price-block__createOrder__button" @click="submitOrder">Оформить заказ</button>
                 </div>
                 <div class="price-block__buyOneClick">
                     <button class="price-block__buyOneClick__button">Купить в 1 клик</button>
