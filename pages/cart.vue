@@ -28,12 +28,25 @@ onMounted(async () => {
   await nextTick();
 
   swiperInstance.value = new Swiper(swiperRef.value, {
-    slidesPerView: 4,
     loop: true,
     loopedSlides: promotionalStore.promProducts.length,
     navigation: {
       nextEl: nextButtonRef.value,
       prevEl: prevButtonRef.value,
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 1,
+      },
+      839: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+      1398: {
+        slidesPerView: 4,
+      },
     },
   });
 
@@ -266,10 +279,6 @@ const prepareOrderData = () => {
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-	}
-
     &:active {
         transform: scale(0.9);
     }
@@ -426,10 +435,6 @@ const prepareOrderData = () => {
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-	}
-
     &:active {
         transform: scale(0.9);
     }
@@ -448,10 +453,6 @@ const prepareOrderData = () => {
     color: #0069B4;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
-
-    &:hover {
-        opacity: 1;
-	}
 
     &:active {
         transform: scale(0.9);
@@ -494,27 +495,24 @@ const prepareOrderData = () => {
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-	}
-
     &:active {
         transform: scale(0.9);
     }
 }
 
 .swiper-container {
-  width: 1280px;
-  height: 563px;
-  overflow: hidden;
-  margin-bottom: 100px;
+    width: 1280px;
+    height: 563px;
+    overflow: hidden;
+    margin-bottom: 100px;
 }
 
 .swiper-slide {
-  width: auto;
-  height: auto;
-  display: flex;
-  align-items: center;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-card {
@@ -585,12 +583,92 @@ const prepareOrderData = () => {
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-	}
-
     &:active {
         transform: scale(0.9);
+    }
+}
+
+@media (max-width: 1398px) {
+    .cart__block {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .swiper-container {
+        width: 100%; 
+    }
+
+    .products-block__header {
+        width: 100%;
+    }
+}
+
+@media (max-width: 839px) {
+    .swiper-container {
+        width: 400px; 
+    }
+
+    .cartItems-block__header {
+        width: 100%;
+    }
+
+    .cartItems-block__attachment__block {
+        width: 100%;
+    }
+}
+
+@media (max-width: 685px) {
+    .container {
+        margin: 0;
+    }
+
+    .location-block {
+        margin-left: 30px;
+    }
+
+    .cartItems-block__header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cartItems-block__title {
+        margin-bottom: 20px
+    }
+
+    .cartItems-block__attachment__block {
+        margin-top: 20px;
+    }
+
+    .cartItems-block__title__text {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 530px) {
+    .products-block__header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .products-block__header__title {
+        margin-bottom: 20px;
+    }
+
+    .products-block__title__text {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 530px) {
+    .price-block {
+        width: 100%;
+        padding: 15px 10px;
+    }
+
+    .swiper-container {
+        width: 350px; 
     }
 }
 

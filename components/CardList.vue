@@ -41,9 +41,9 @@ const handleRemoveItem = (id) => {
 }
 
 .separator {
-  width: 800px;
-  height: 1px;
-  background-color: #C4C4C4;
+    width: 800px;
+    height: 1px;
+    background-color: #C4C4C4;
 }
 
 </style>

@@ -48,45 +48,54 @@ const removeItem = () => {
 </script>
 
 <template>
-    <div class="productCard-block">
-        <img class="productCard-block__image" :src="props.picture" alt="Изображение товара">
-        <div class="productCard-block__info">
-            <div class="productCard-block__info__title">
-                <span class="productCard-block__info__title__text"> {{ props.title }} </span>
-            </div>
-            <div class="productCard-block__info__description">
-                <span class="productCard-block__info__description__text"> {{ props.description }} </span>
-            </div>
-            <div class="productCard-block__info__article">
-                <span class="productCard-block__info__article__text"> {{ props.article }} </span>
-            </div>
-        </div>
-        <div class="productCard-block__data">
-            <div class="productCard-block__count">
-                <div class="productCard-block__count__minus_button" @click="decreaseCount">
-                    <img src="../assets/svg/minus.svg" alt="Уменьшить количество на 1">
+    <div class="container">
+        <div class="productCard-block">
+            <img class="productCard-block__image" :src="props.picture" alt="Изображение товара">
+            <div class="productCard-block__info">
+                <div class="productCard-block__info__title">
+                    <span class="productCard-block__info__title__text"> {{ props.title }} </span>
                 </div>
-                <div class="productCard-block__count__number">
-                    <span class="productCard-block__count__number__text"> {{ props.count }} </span>
+                <div class="productCard-block__info__description">
+                    <span class="productCard-block__info__description__text"> {{ props.description }} </span>
                 </div>
-                <div class="productCard-block__count__plus_button" @click="increaseCount">
-                    <img src="../assets/svg/plus.svg" alt="Увеличить количество на 1">
+                <div class="productCard-block__info__article">
+                    <span class="productCard-block__info__article__text"> {{ props.article }} </span>
                 </div>
             </div>
-            <div v-if="props.count > 1" class="productCard-block__count__pricePerPiece">
-                <span class="productCard-block__count__pricePerPiece__text"> {{ formatNumberWithSpaces(props.price) }} ₽/шт.</span>
+            <div class="productCard-block__data">
+                <div class="productCard-block__count">
+                    <div class="productCard-block__count__minus_button" @click="decreaseCount">
+                        <img src="../assets/svg/minus.svg" alt="Уменьшить количество на 1">
+                    </div>
+                    <div class="productCard-block__count__number">
+                        <span class="productCard-block__count__number__text"> {{ props.count }} </span>
+                    </div>
+                    <div class="productCard-block__count__plus_button" @click="increaseCount">
+                        <img src="../assets/svg/plus.svg" alt="Увеличить количество на 1">
+                    </div>
+                </div>
+                <div v-if="props.count > 1" class="productCard-block__count__pricePerPiece">
+                    <span class="productCard-block__count__pricePerPiece__text"> {{ formatNumberWithSpaces(props.price) }} ₽/шт.</span>
+                </div>
             </div>
-        </div>
-        <div class="productCard-block__price">
-            <span class="productCard-block__price__text"> {{ formatNumberWithSpaces(props.price * props.count) }} ₽</span>
-        </div>
-        <div class="productCard-block__delete">
-            <img class="productCard-block__delete__button" src="../assets/svg/close.svg" alt="" @click="removeItem">
+            <div class="productCard-block__price">
+                <span class="productCard-block__price__text"> {{ formatNumberWithSpaces(props.price * props.count) }} ₽</span>
+            </div>
+            <div class="productCard-block__delete">
+                <img class="productCard-block__delete__button" src="../assets/svg/close.svg" alt="" @click="removeItem">
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 .productCard-block {
     display: flex;
     width: 800px;
@@ -164,9 +173,6 @@ const removeItem = () => {
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-	}
 
     &:active {
         transform: scale(0.9);
@@ -194,10 +200,6 @@ const removeItem = () => {
     justify-content: center;
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
-
-    &:hover {
-        opacity: 1;
-	}
 
     &:active {
         transform: scale(0.9);
@@ -242,6 +244,40 @@ const removeItem = () => {
 
     &:active {
         transform: scale(0.9);
+    }
+}
+
+@media (max-width: 839px) {
+    .productCard-block {
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+        width: 350px;
+        border: 1px solid #1F2432;
+        border-radius: 10px;
+    }
+
+    .productCard-block__image {
+        margin: 20px 0 0 0;
+    }
+
+    .productCard-block__info {
+        margin: 0;
+    }
+    
+    .productCard-block__data {
+        margin-top: 0;
+        margin-right: 0;
+    }
+
+    .productCard-block__price {
+        margin: 20px 0 20px 0;
+    }
+
+    .productCard-block__delete {
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
 }
 

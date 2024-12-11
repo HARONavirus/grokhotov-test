@@ -54,6 +54,11 @@ header {
     height: 32px;
     width: 32px;
     margin-right: 10px;
+    transition: transform 0.1s ease-in-out;
+
+    &:active {
+        transform: scale(0.9);
+    }
 }
 
 .header-cart__info {
