@@ -1,76 +1,18 @@
-# Nuxt Minimal Starter
+# Тестовое задание для компании https://grokhotov.ru
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Как запустить?
 
-## Setup
+1. Устнаовить LTS версию Node.JS
+2. Установить редактор кода (например VSCode)
+3. Склонировать репозиторий к себе на ПК
+4. `npm install`
+5. `npm run dev`
+6. Готово!
 
-Make sure to install dependencies:
+**⚙️ Стэк технологий:**
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-# grokhotov-test
+- Nuxt 3
+- Pinia
+- Axios
+- Swiper.js
+- Composition API / Options API
